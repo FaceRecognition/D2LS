@@ -15,6 +15,16 @@ local.properties
 .classpath
 .settings/
 .loadpath
+LBPH/trainner.yml
+LBPH/haarcascade_frontalface_default.xml
+LBPH/data/
+CNN/dataset/
+CNN/examples/
+CNN/output/
+CNN/videos/
+
+
+
 
 # External tool builders
 .externalToolBuilders/
