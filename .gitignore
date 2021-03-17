@@ -24,7 +24,7 @@ CNN/output/
 CNN/videos/
 
 data/
-
+method/LBPH/trainner.yml
 
 # External tool builders
 .externalToolBuilders/

@@ -46,6 +46,6 @@ def train_classifier(train_faces, train_faces_ids):
     print('Training model in progress...')
     recognizer_lbph.train(train_faces, np.array(train_faces_ids))
     print('Saving...')
-    recognizer_lbph.save('trainner.yml')
+    recognizer_lbph.save('D2LS/method/LBPH/trainner.yml')
     print('Model training complete!')
 
