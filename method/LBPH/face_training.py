@@ -12,7 +12,7 @@ def labels_for_training_data():
     faces, faces_ids = list(), list()
 
     # Go through directories and find label and path to image
-    for root, dirs, files in walk('D2LS/data/lbph/data/'):
+    for root, dirs, files in walk('data/'):
         for file in files:
             if file.endswith('.jpg') or file.endswith('.png'):
                 img_path = path.join(root, file)
@@ -32,9 +32,9 @@ def labels_for_training_data():
                 faces_ids.append(id_)
 
     # Make directory with labels doesn't exist make directory and file with labels
-    if not path.exists('D2LS/data/lbph/labels/'):
-        makedirs('D2LS/data/lbph/labels/')
-    with open('D2LS/data/lbph/labels/face-labels.pickle', 'wb') as file:
+    if not path.exists('labels/'):
+        makedirs('labels/')
+    with open('labels/face-labels.pickle', 'wb') as file:
         pickle.dump(label_ids, file)
 
     return faces, faces_ids
@@ -46,6 +46,10 @@ def train_classifier(train_faces, train_faces_ids):
     print('Training model in progress...')
     recognizer_lbph.train(train_faces, np.array(train_faces_ids))
     print('Saving...')
-    recognizer_lbph.save('D2LS/method/LBPH/trainner.yml')
+    recognizer_lbph.save('trainner.yml')
     print('Model training complete!')
 
+
+
+face , ids = labels_for_training_data()
+train_classifier(face,ids)

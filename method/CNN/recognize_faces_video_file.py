@@ -1,6 +1,10 @@
 # USAGE
 # python recognize_faces_video_file.py --encodings encodings.pickle --input videos/lunch_scene.mp4
 # python recognize_faces_video_file.py --encodings encodings.pickle --input videos/lunch_scene.mp4 --output output/lunch_scene_output.avi --display 0
+#python3 D2LS  --encodings D2LS/method/CNN/encodings.pickle --input D2LS/data/replay_attack/test/real/client009_session01_webcam_authenticate_adverse_1.mov --output D2LS/data/output/lunch_scene_output.avi --display 0 -d hog
+
+
+
 
 # import the necessary packages
 import face_recognition

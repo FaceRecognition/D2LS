@@ -1,6 +1,8 @@
 # USAGE
 # python encode_faces.py --dataset dataset --encodings encodings.pickle
 
+#python3 D2LS  --dataset D2LS/data/dataset --encodings D2LS/method/CNN/encodings.pickle -d hog
+
 # import the necessary packages
 from imutils import paths
 import face_recognition
@@ -8,6 +10,12 @@ import argparse
 import pickle
 import cv2
 import os
+
+
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
 
 def encode():

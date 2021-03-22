@@ -22,8 +22,8 @@ def Capture():
     directory = name+'-'+surname
 
     # If not exist create directory for new user samples
-    if not path.exists('D2LS/data/lbph/data/'+str(directory.lower())):
-        makedirs('D2LS/data/lbph/data/'+str(directory.lower()))
+    if not path.exists('data/'+str(directory.lower())):
+        makedirs('data/'+str(directory.lower()))
 
     cap = cv2.VideoCapture(0)
     count = 0
@@ -34,7 +34,7 @@ def Capture():
             face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
 
             # If face was detected save region of interest in user directory
-            file_name_path = 'D2LS/data/lbph/data/'+str(directory.lower())+'/'+str(count)+'.jpg'
+            file_name_path = 'data/'+str(directory.lower())+'/'+str(count)+'.jpg'
             cv2.imwrite(file_name_path, face)
             count += 1
 
@@ -50,3 +50,6 @@ def Capture():
     cap.release()
     cv2.destroyAllWindows()
     print('Collecting samples complete!')
+
+
+Capture()

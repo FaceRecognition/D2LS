@@ -1,6 +1,6 @@
 # USAGE
 # python recognize_faces_image.py --encodings encodings.pickle --image examples/example_01.png 
-
+#python3 D2LS  --encodings D2LS/method/CNN/encodings.pickle --image D2LS/data/examples/123123.png
 # import the necessary packages
 import face_recognition
 import argparse
