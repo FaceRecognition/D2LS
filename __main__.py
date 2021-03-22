@@ -1,16 +1,46 @@
 import method.CNN.face_recognition as cnn
-import method.LBPH as LBPH
+import method.LBPH.face_recognition as lbph
+
+
 import argparse
 from random import randint
 
 
 def main():
   if args["action"]=="lbph_capture":
-   print (args["action"])
-  elif args["action"]=="lbph_train":
-   print (args["action"])
+    print (args["action"])
+    fr = lbph.face_recognition(
+    args["detection_method"],
+    args["inputvideo"],
+    args["outputvideo"],
+    args["display"],
+    args["image"],
+    args["dataset"],
+    args["encodings"],)
+    fr.capture()
   elif args["action"]=="lbph_detect":
-   print (args["action"])
+    print (args["action"])
+    fr = lbph.face_recognition(
+    args["detection_method"],
+    args["inputvideo"],
+    args["outputvideo"],
+    args["display"],
+    args["image"],
+    args["dataset"],
+    args["encodings"],)
+    fr.detection()
+  elif args["action"]=="lbph_train":
+    print (args["action"])
+    fr = lbph.face_recognition(
+    args["detection_method"],
+    args["inputvideo"],
+    args["outputvideo"],
+    args["display"],
+    args["image"],
+    args["dataset"],
+    args["encodings"],)
+    face , ids = fr.labels_for_training_data()
+    fr.train(face,ids)
   elif args["action"]=="cnn_train":
     print (args["action"])
     fr = cnn.face_recognition(
@@ -77,6 +107,7 @@ def main():
     fr.detection_vid_file() 
 
   else:
+
    print ('NO ACTION NAMED THAT try the comand "python3 D2LS"')
 
     

@@ -20,9 +20,6 @@ class face_recognition:
                         image,
                         dataset,
                         encodings,):
-
-
-
         self.detection_method = detection_method
         self.inputvideo = inputvideo
         self.outputvideo = outputvideo
@@ -75,10 +72,8 @@ class face_recognition:
         f = open(self.encodings, "wb")
         f.write(pickle.dumps(data))
         f.close()
-
     def capture(self):
         print("capture")
-
     def detection_img(self):
         print("img")
                 # load the known faces and embeddings
@@ -141,8 +136,6 @@ class face_recognition:
         # show the output image
         cv2.imshow("Image", image)
         cv2.waitKey(0)
-
-
     def detection_vid(self):
         print("vid")
         # load the known faces and embeddings
@@ -249,7 +242,6 @@ class face_recognition:
         # check to see if the video writer point needs to be released
         if writer is not None:
             writer.release()
-
     def detection_vid_file(self):
         print("vid_file")
         # load the known faces and embeddings
