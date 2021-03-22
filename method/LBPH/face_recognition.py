@@ -6,33 +6,27 @@ import numpy as np
 
 
 class face_recognition:
-    def __init__(self,  detection_method, 
-                        inputvideo,
-                        outputvideo,
-                        display,
-                        image,
-                        dataset,
-                        encodings,):
-        self.detection_method = detection_method
-        self.inputvideo = inputvideo
-        self.outputvideo = outputvideo
-        self.display = display
-        self.image = image
-        self.dataset = dataset
-        self.encodings = encodings
+    def __init__(self,  name, 
+                        lbph_savecapture,
+                        lbph_cascade,
+                        lbph_yml,
+                        lbph_labels,
+                        lbph_labelspath):
+        self.name = name
+        self.lbph_savecapture = lbph_savecapture
+        self.lbph_cascade = lbph_cascade
+        self.lbph_yml = lbph_yml
+        self.lbph_labels = lbph_labels
+        self.lbph_labelspath = lbph_labelspath
 
     def capture(self):
 
        
-        print('Enter your name: ', end='')
-        name = input()
-        print('Enter your surname: ', end='')
-        surname = input()
-        directory = name+'-'+surname
+        directory = self.name
 
         # If not exist create directory for new user samples
-        if not path.exists('D2LS/method/LBPH/data/'+str(directory.lower())):
-            makedirs('D2LS/method/LBPH/data/'+str(directory.lower()))
+        if not path.exists(self.lbph_savecapture +str(directory.lower())):
+            makedirs(self.lbph_savecapture +str(directory.lower()))
 
         cap = cv2.VideoCapture(0)
         count = 0
@@ -43,7 +37,7 @@ class face_recognition:
                 face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
 
                 # If face was detected save region of interest in user directory
-                file_name_path = 'D2LS/method/LBPH/data/'+str(directory.lower())+'/'+str(count)+'.jpg'
+                file_name_path = self.lbph_savecapture +str(directory.lower())+'/'+str(count)+'.jpg'
                 cv2.imwrite(file_name_path, face)
                 count += 1
 
@@ -58,17 +52,15 @@ class face_recognition:
 
         cap.release()
         cv2.destroyAllWindows()
-        print('Collecting samples complete!')
-
-        
+        print('Collecting samples complete!') 
     def detection(self):
 
-        face_classifier = cv2.CascadeClassifier('D2LS/method/LBPH/haarcascade_frontalface_default.xml')
+        face_classifier = cv2.CascadeClassifier(self.lbph_cascade)
         recognizer_lbph = cv2.face.LBPHFaceRecognizer_create()
-        recognizer_lbph.read("D2LS/method/LBPH/trainner.yml")
+        recognizer_lbph.read(self.lbph_yml)
 
         labels = {}
-        with open('D2LS/method/LBPH/labels/face-labels.pickle', 'rb') as file:
+        with open(self.lbph_labels, 'rb') as file:
             org_labels = pickle.load(file)
             labels = {v: k for k, v in org_labels.items()}
 
@@ -99,7 +91,7 @@ class face_recognition:
         cap.release()
         cv2.destroyAllWindows()
     def face_extractor(self ,cap_frame):
-        face_classifier = cv2.CascadeClassifier('D2LS/method/LBPH/haarcascade_frontalface_default.xml')
+        face_classifier = cv2.CascadeClassifier(self.lbph_cascade)
 
         gray_frame = cv2.cvtColor(cap_frame, cv2.COLOR_BGR2GRAY)
         cap_face = face_classifier.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
@@ -107,9 +99,6 @@ class face_recognition:
         for (x, y, w, h) in cap_face:
             roi = cap_frame[y:y + h, x:x + w]
             return roi
-
-
-
     def labels_for_training_data(self ,):
         """Function going through directories with sample faces and return list of that samples and list of ids to them.
         Also make file with labels to specific face"""
@@ -118,7 +107,7 @@ class face_recognition:
         faces, faces_ids = list(), list()
 
         # Go through directories and find label and path to image
-        for root, dirs, files in walk('D2LS/method/LBPH/data/'):
+        for root, dirs, files in walk(self.lbph_savecapture):
             for file in files:
                 if file.endswith('.jpg') or file.endswith('.png'):
                     img_path = path.join(root, file)
@@ -138,21 +127,19 @@ class face_recognition:
                     faces_ids.append(id_)
 
         # Make directory with labels doesn't exist make directory and file with labels
-        if not path.exists('D2LS/method/LBPH/labels/'):
-            makedirs('D2LS/method/LBPH/labels/')
-        with open('D2LS/method/LBPH/labels/face-labels.pickle', 'wb') as file:
+        if not path.exists(self.lbph_labelspath):
+            makedirs(self.lbph_labelspath)
+        with open(self.lbph_labels, 'wb') as file:
             pickle.dump(label_ids, file)
 
         return faces, faces_ids
-
-
     def train(self ,train_faces, train_faces_ids):
         """Function train model to recognize face with local binary pattern histogram algorithm"""
         recognizer_lbph = cv2.face.LBPHFaceRecognizer_create()
         print('Training model in progress...')
         recognizer_lbph.train(train_faces, np.array(train_faces_ids))
         print('Saving...')
-        recognizer_lbph.save('D2LS/method/LBPH/trainner.yml')
+        recognizer_lbph.save(self.lbph_yml)
         print('Model training complete!')
     
 

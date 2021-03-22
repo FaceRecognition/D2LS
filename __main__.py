@@ -10,35 +10,32 @@ def main():
   if args["action"]=="lbph_capture":
     print (args["action"])
     fr = lbph.face_recognition(
-    args["detection_method"],
-    args["inputvideo"],
-    args["outputvideo"],
-    args["display"],
-    args["image"],
-    args["dataset"],
-    args["encodings"],)
+    args["lbph_name"],
+    args["lbph_savecapture"],
+    args["lbph_cascade"],
+    args["lbph_yml"],
+    args["lbph_labels"],
+    args["lbph_labelspath"])
     fr.capture()
   elif args["action"]=="lbph_detect":
     print (args["action"])
     fr = lbph.face_recognition(
-    args["detection_method"],
-    args["inputvideo"],
-    args["outputvideo"],
-    args["display"],
-    args["image"],
-    args["dataset"],
-    args["encodings"],)
+    args["lbph_name"],
+    args["lbph_savecapture"],
+    args["lbph_cascade"],
+    args["lbph_yml"],
+    args["lbph_labels"],
+    args["lbph_labelspath"])
     fr.detection()
   elif args["action"]=="lbph_train":
     print (args["action"])
     fr = lbph.face_recognition(
-    args["detection_method"],
-    args["inputvideo"],
-    args["outputvideo"],
-    args["display"],
-    args["image"],
-    args["dataset"],
-    args["encodings"],)
+     args["lbph_name"],
+    args["lbph_savecapture"],
+    args["lbph_cascade"],
+    args["lbph_yml"],
+    args["lbph_labels"],
+    args["lbph_labelspath"])
     face , ids = fr.labels_for_training_data()
     fr.train(face,ids)
   elif args["action"]=="cnn_train":
@@ -132,11 +129,11 @@ if __name__ == '__main__':
   ap.add_argument("-s", "--dataset", default="D2LS/data/dataset" , help="path to input directory of faces + images")
   #LBPH
   ap.add_argument("-name", "--lbph_name", default="random" + str(randint(0, 100000)) , help="")
-  ap.add_argument("-c", "--lbph_cascade", default="" , help="")
-  ap.add_argument("-yml", "--lbph_yml", default="" , help="")
-  ap.add_argument("-l", "--lbph_labels", default="" , help="")
-  ap.add_argument("-cd", "--lbph_datapath", default="" , help="")
-  ap.add_argument("-sc", "--lbph_savecapture", default="" , help="")
+  ap.add_argument("-c", "--lbph_cascade", default="D2LS/method/LBPH/haarcascade_frontalface_default.xml" , help="")
+  ap.add_argument("-yml", "--lbph_yml", default="D2LS/method/LBPH/trainner.yml" , help="")
+  ap.add_argument("-l", "--lbph_labels", default="D2LS/method/LBPH/labels/face-labels.pickle" , help="")
+  ap.add_argument("-cd", "--lbph_labelspath", default="D2LS/method/LBPH/labels/" , help="")
+  ap.add_argument("-sc", "--lbph_savecapture", default="D2LS/method/LBPH/data/" , help="")
   ap.add_argument("-sm", "--lbph_savemodel", default="" , help="")
   args = vars(ap.parse_args())   
   main()
